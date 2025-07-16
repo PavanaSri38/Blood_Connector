@@ -44,7 +44,6 @@ class _AskBloodTabState extends State<AskBloodTab> {
         'contact': contactController.text.trim(),
         'units': int.tryParse(unitsController.text) ?? 1,
         'timeUntil': timeUntilController.text.trim(),
-        'notes': notesController.text.trim(),
         'timestamp': FieldValue.serverTimestamp(),
         'requestedBy': user.uid,
         'status': 'pending',
@@ -186,13 +185,7 @@ class _AskBloodTabState extends State<AskBloodTab> {
                 ),
               ],
             ),
-            const SizedBox(height: 15),
-            _buildTextField(
-              controller: notesController,
-              label: 'Additional Notes',
-              icon: Icons.note,
-              maxLines: 3,
-            ),
+
             const SizedBox(height: 25),
             ElevatedButton(
               onPressed: submitRequest,

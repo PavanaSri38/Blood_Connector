@@ -144,7 +144,7 @@ class DashboardTab extends StatelessWidget {
                         ),
                         child: FutureBuilder<DocumentSnapshot>(
                           future: FirebaseFirestore.instance
-                              .collection('users') // Fixed: changed from 'profiles' to 'users'
+                              .collection('users')
                               .doc(data['acceptedBy'])
                               .get(),
                           builder: (context, donorSnapshot) {
@@ -166,6 +166,8 @@ class DashboardTab extends StatelessWidget {
                             }
 
                             final donorData = donorSnapshot.data!.data() as Map<String, dynamic>;
+                            final hasDisease = donorData['hasDisease'] ?? false;
+                            final diseaseDetails = donorData['diseaseDetails'] ?? '';
 
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -200,6 +202,45 @@ class DashboardTab extends StatelessWidget {
                                     const SizedBox(width: 4),
                                     Text("City: ${donorData['city'] ?? 'N/A'}"),
                                   ],
+                                ),
+                                const SizedBox(height: 4),
+                                Row(
+                                  children: [
+                                    const Icon(Icons.health_and_safety, color: Colors.grey, size: 14),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      "Health Status: ${hasDisease ? 'Has health issues' : 'No recent health issues'}",
+                                      style: TextStyle(
+                                        color: hasDisease ? Colors.red : Colors.green,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                if (hasDisease && diseaseDetails.isNotEmpty) ...[
+                                  const SizedBox(height: 4),
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      const Icon(Icons.warning, color: Colors.orange, size: 14),
+                                      const SizedBox(width: 4),
+                                      Expanded(
+                                        child: Text(
+                                          "Details: $diseaseDetails",
+                                          style: const TextStyle(fontSize: 12),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                                const SizedBox(height: 8),
+                                Text(
+                                  "Note: ${hasDisease ? 'This donor has reported health issues in the last 6 months. Please consult with medical professionals before proceeding.' : 'This donor has reported no health issues in the last 6 months.'}",
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: hasDisease ? Colors.red : Colors.green,
+                                    fontStyle: FontStyle.italic,
+                                  ),
                                 ),
                               ],
                             );
