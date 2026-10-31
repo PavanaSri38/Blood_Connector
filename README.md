@@ -1,4 +1,4 @@
-# blood-donation
+# Blood Connector
 A mobile-first Flutter application designed to streamline the blood donation process by efficiently connecting blood donors with acceptors. The app enables real-time matching, geolocation-based filtering, and instant communication between users to facilitate faster donations and save lives.
 
 🎯 Objectives
